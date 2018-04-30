@@ -5,6 +5,8 @@ import re
 import csv
 import time
 
+# This is unused. It was previously used to get all the data for every member in each team
+
 YEARS_START=2015
 YEARS_END=2015
 
