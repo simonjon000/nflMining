@@ -5,12 +5,12 @@ import re
 import csv
 import time
 
-YEARS_START=2000
+YEARS_START=2016
 YEARS_END=2017
 
 yearteam = {}
 tempteam = []
-with open('nfl_elo.csv', 'r') as nflstat:#open origional data file to get all team abbreviations
+with open('C:/Users/Jonah/Desktop/jONAH/CS/spring2018/nfl_elo.csv', 'r') as nflstat:#open origional data file to get all team abbreviations
     filereader = csv.reader(nflstat)#treat it as csv
     s="1920"#start year
     t=1#used to skip first line
@@ -23,13 +23,14 @@ with open('nfl_elo.csv', 'r') as nflstat:#open origional data file to get all te
             s=row[1] #
         tempteam.append(row[4].lower())#add first team
         tempteam.append(row[5].lower())#add second team
+    yearteam[s] = set(tempteam) #save the old team list (as set to remove duplicates)
 #print(yearteam['1920'])
 #print(yearteam['2013'])
 #exit()
 #TEAMS = ['crd', 'atl', 'rav', 'buf', 'car', 'chi', 'cin', 'cle', 'dal', 'den', 'det', 'gnb', 'htx', 'clt', 'jax', 'kan', 'mia', 'min', 'nwe', 'nor', 'nyg', 'nyj', 'rai', 'phi', 'pit', 'sdg', 'sfo', 'sea', 'ram', 'tam', 'oti', 'was']
 #print(len(TEAMS))
 TEAMS=[]
-with open('avg.csz', 'w') as f:#open file so we can write to it
+with open('C:/Users/Jonah/Desktop/jONAH/CS/spring2018/avg.csz', 'w') as f:#open file so we can write to it
     for year in range(YEARS_START, YEARS_END+1):#for each year
         TEAMS = yearteam[str(year)]#set teams from our dictionary above
         #print(year)
@@ -72,20 +73,26 @@ with open('avg.csz', 'w') as f:#open file so we can write to it
                     rows = table_foot.find('tr')#get row
                     #print(rows)
                     #exit()
-                    age = row.find('td', {'data-stat', 'age'}).text
-                    g = row.find('td', {'data-stat', 'g'}).text
-                    weight = row.find('td', {'data-stat', 'weight'}).text
-                    height = row.find('td', {'data-stat', 'height'}).text
-                    experience = row.find('td', {'data-stat', 'experience'}).text
+                    temp = rows.find_all('td');
+                    #print(temp)
+                    #exit()
+                    age = temp[1].text
+                    #print(age)
+                    #exit()
+                    g = temp[3].text
+                    weight = temp[5].text
+                    height = temp[6].text
+                    experience = temp[9].text
                     roster.append(age)#add player coloumn text (name)
                     roster.append(g)
                     roster.append(weight)
                     roster.append(height)
                     roster.append(experience)
+                    print(str(year) + ':' + team +'[successful]')
                     successful = True #we succeed no server error so don't retry
                 except Exception as e:#server error occurs
                     #print(e)
-                    print(str(year) + ':' +team)#fancy 404 error
+                    print(str(year) + ':' +team +'[ERROR]')#fancy 404 error
                     #print(url)
                     roster.append('ERROR')#say so in file for further investigation
                 finally:
