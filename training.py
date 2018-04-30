@@ -3,10 +3,8 @@ import csv
 
 # [elo, age, games played, weight, height, years played in pro football]
 weight_vector = [0, 0, 0, 0, 0, 0]
-learning_rate = 1
 team_dict = {}
-max = [0, 0, 0, 0, 0, 0]
-min = [100000, 100000, 100000, 10000, 100000, 100000]
+learning_rate = 1
 
 # Goal here is to use the weight vector to get a value for the inputs
 # Get two values and the one with the higher value is the winner
@@ -29,14 +27,13 @@ def MakeDict():
 
 def UpdateVector(winner_stats, loser_stats):
     # Normalizing data
-    w = [(winner_stats[0] - 1200)/550, (winner_stats[1] - 24.6)/3, (winner_stats[2])/16,
-         (winner_stats[3] - 236.2)/12.3, (winner_stats[4] - 72.9)/1.6, (winner_stats[5]) - 2/3]
-    l = [(loser_stats[0] - 1200)/550, (loser_stats[1] - 24.6)/3, (loser_stats[2])/16,
-         (loser_stats[3] - 236.2)/12.3, (loser_stats[4] - 72.9)/1.6, (loser_stats[5]) - 2/3]
+    w = [(winner_stats[0] - 1201)/582, (winner_stats[1] - 24.6)/3.1, (winner_stats[2])/16,
+         (winner_stats[3] - 234.1)/20.1, (winner_stats[4] - 72.8)/2, (winner_stats[5]) - 2/3]
+    l = [(loser_stats[0] - 1201)/582, (loser_stats[1] - 24.6)/3.1, (loser_stats[2])/16,
+         (loser_stats[3] - 234.1)/20.1, (loser_stats[4] - 72.8)/2, (loser_stats[5]) - 2/3]
 
     for x in range(0, 6):
-        stat = w[x] - l[x]
-        weight_vector[x] += stat * learning_rate
+        weight_vector[x] += (w[x] - l[x]) * learning_rate
     return
 
 def GetValue(team_stats):
@@ -51,13 +48,13 @@ def Train():
     getTeams.TeamDict()
     MakeDict()
     training_error = 0
-    training_set = 0
+    training_size = 0
 
     # match = [Year, T1 name, T1 elo, T1 score, T2 name, T2 elo, T2 score]
     # 1970 -> 2009 is for training. 2010 -> 2017 is for testing
-    #for match in getTeams.match[4551:13873]:
-    for match in getTeams.match[15475:]:
-        training_set += 1
+    for match in getTeams.match[92:12804]:
+    #for match in getTeams.match[13846:]:
+        training_size += 1
         # t_stats = [elo, age, games played, weight, height, years played in pro football]
         t1_stats = [match[2]] + team_dict[match[1]][match[0]]
         t2_stats = [match[5]] + team_dict[match[4]][match[0]]
@@ -70,19 +67,18 @@ def Train():
 
         # If the victor is team 2 but output was team 1, update weights
         if v1 >= v2 and match[3] < match[6]:
+            #learning_rate = match[6] - match[3]
             UpdateVector(t2_stats, t1_stats)
             training_error += 1
         # If the victor is team 1 but output was team 2, update weights
         elif v1 <= v2 and match[3] > match[6]:
+            #learning_rate = match[3] - match[6]
             UpdateVector(t1_stats, t2_stats)
             training_error += 1
 
-    #print("Max: ", max)
-    #print("Min: ", min)
-    print("Training error: %.2f" %(training_error/training_set))
-    print("Final weight vector: [%.2f, %.2f, %.2f, %.2f, %.2f, %.2f]" %(weight_vector[0], weight_vector[1],
-                                                                        weight_vector[2], weight_vector[3],
-                                                                        weight_vector[4], weight_vector[5]))
+    print("Training error: %0.2f percent." %(100*training_error/training_size))
+    print("Final weight vector: [ELO: %.2f, Age: %.2f, Games Played: %.2f, Weight: %.2f, Height: %.2f, Pro years: %.2f]"
+          %(weight_vector[0], weight_vector[1],
+          weight_vector[2], weight_vector[3],
+          weight_vector[4], weight_vector[5]))
     return
-
-Train()

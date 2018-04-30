@@ -3,12 +3,11 @@ import getTeams
 
 def Test():
     test_error = 0
-    test_set = 0
+    test_size = 0
 
     # 1970 -> 2009 is for training. 2010 -> 2017 is for testing
-    for match in getTeams.match[13873:]:
-        test_set += 1
-
+    for match in getTeams.match[12804:16007]:
+        test_size += 1
         # t_stats = [elo, age, games played, weight, height, years played in pro football]
         t1_stats = [match[2]] + training.team_dict[match[1]][match[0]]
         t2_stats = [match[5]] + training.team_dict[match[4]][match[0]]
@@ -20,4 +19,5 @@ def Test():
         if (v1 >= v2 and match[3] < match[6]) or (v1 < v2 and match[3] > match[6]):
             test_error += 1
 
-    print("Testing error: " + (test_error/test_set))
+    print("Testing error: %0.2f percent." %(100*test_error/test_size))
+    return
