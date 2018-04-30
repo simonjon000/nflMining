@@ -5,7 +5,6 @@ import re
 import csv
 import time
 
-<<<<<<< HEAD
 YEARS_START = 2017
 YEARS_END = 1920
 
@@ -36,7 +35,6 @@ with open('avg.csv', 'w') as f:  # open file so we can write to it
         TEAMS = yearteam[str(year)]  # set teams from our dictionary above
         # print(year)
         successful = False  # veriable to retry if we get a server error
-=======
 YEARS_START=2016
 YEARS_END=2017
 
@@ -67,7 +65,6 @@ with open('C:/Users/Jonah/Desktop/jONAH/CS/spring2018/avg.csz', 'w') as f:#open 
         TEAMS = yearteam[str(year)]#set teams from our dictionary above
         #print(year)
         successful = False#veriable to retry if we get a server error
->>>>>>> 297d0cc0e86a584f67718f0d369dd4fc84f9009d
         itr = 0;
         while not successful:
             for team in TEAMS:  # for each team
@@ -88,7 +85,6 @@ with open('C:/Users/Jonah/Desktop/jONAH/CS/spring2018/avg.csz', 'w') as f:#open 
                     exit(1)
                     # continue;
                 try:
-<<<<<<< HEAD
                     soup = BeautifulSoup(page)  # make soup
                     body = soup.find("body")  # get body
                     # print(soup)
@@ -115,7 +111,6 @@ with open('C:/Users/Jonah/Desktop/jONAH/CS/spring2018/avg.csz', 'w') as f:#open 
                     height = row.find('td', {'data-stat', 'height'}).text
                     experience = row.find('td', {'data-stat', 'experience'}).text
                     roster.append(age)  # add player coloumn text (name)
-=======
                     soup = BeautifulSoup(page)#make soup
                     body = soup.find("body")#get body
                     #print(soup)
@@ -147,19 +142,16 @@ with open('C:/Users/Jonah/Desktop/jONAH/CS/spring2018/avg.csz', 'w') as f:#open 
                     height = temp[6].text
                     experience = temp[9].text
                     roster.append(age)#add player coloumn text (name)
->>>>>>> 297d0cc0e86a584f67718f0d369dd4fc84f9009d
                     roster.append(g)
                     roster.append(weight)
                     roster.append(height)
                     roster.append(experience)
-<<<<<<< HEAD
                     successful = True  # we succeed no server error so don't retry
                 except Exception as e:  # server error occurs
                     # print(e)
                     print(str(year) + ':' + team)  # fancy 404 error
                     # print(url)
                     roster.append('ERROR')  # say so in file for further investigation
-=======
                     print(str(year) + ':' + team +'[successful]')
                     successful = True #we succeed no server error so don't retry
                 except Exception as e:#server error occurs
@@ -167,7 +159,6 @@ with open('C:/Users/Jonah/Desktop/jONAH/CS/spring2018/avg.csz', 'w') as f:#open 
                     print(str(year) + ':' +team +'[ERROR]')#fancy 404 error
                     #print(url)
                     roster.append('ERROR')#say so in file for further investigation
->>>>>>> 297d0cc0e86a584f67718f0d369dd4fc84f9009d
                 finally:
                     f.write('' + str(year) + ':' + team + ',' + ','.join(roster) + '\r\n')  # write roster to file
                 if itr == 4:  # if we try four times then stop retying
