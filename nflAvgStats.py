@@ -5,6 +5,7 @@ import re
 import csv
 import time
 
+<<<<<<< HEAD
 YEARS_START = 2017
 YEARS_END = 1920
 
@@ -35,6 +36,38 @@ with open('avg.csv', 'w') as f:  # open file so we can write to it
         TEAMS = yearteam[str(year)]  # set teams from our dictionary above
         # print(year)
         successful = False  # veriable to retry if we get a server error
+=======
+YEARS_START=2016
+YEARS_END=2017
+
+yearteam = {}
+tempteam = []
+with open('C:/Users/Jonah/Desktop/jONAH/CS/spring2018/nfl_elo.csv', 'r') as nflstat:#open origional data file to get all team abbreviations
+    filereader = csv.reader(nflstat)#treat it as csv
+    s="1920"#start year
+    t=1#used to skip first line
+    for row in filereader:#for each row
+        if t==1:#if first row we skip
+            t=0
+            continue
+        if s != row[1]:#else if we encounter a new year
+            yearteam[s] = set(tempteam) #save the old team list (as set to remove duplicates)
+            s=row[1] #
+        tempteam.append(row[4].lower())#add first team
+        tempteam.append(row[5].lower())#add second team
+    yearteam[s] = set(tempteam) #save the old team list (as set to remove duplicates)
+#print(yearteam['1920'])
+#print(yearteam['2013'])
+#exit()
+#TEAMS = ['crd', 'atl', 'rav', 'buf', 'car', 'chi', 'cin', 'cle', 'dal', 'den', 'det', 'gnb', 'htx', 'clt', 'jax', 'kan', 'mia', 'min', 'nwe', 'nor', 'nyg', 'nyj', 'rai', 'phi', 'pit', 'sdg', 'sfo', 'sea', 'ram', 'tam', 'oti', 'was']
+#print(len(TEAMS))
+TEAMS=[]
+with open('C:/Users/Jonah/Desktop/jONAH/CS/spring2018/avg.csz', 'w') as f:#open file so we can write to it
+    for year in range(YEARS_START, YEARS_END+1):#for each year
+        TEAMS = yearteam[str(year)]#set teams from our dictionary above
+        #print(year)
+        successful = False#veriable to retry if we get a server error
+>>>>>>> 297d0cc0e86a584f67718f0d369dd4fc84f9009d
         itr = 0;
         while not successful:
             for team in TEAMS:  # for each team
@@ -55,6 +88,7 @@ with open('avg.csv', 'w') as f:  # open file so we can write to it
                     exit(1)
                     # continue;
                 try:
+<<<<<<< HEAD
                     soup = BeautifulSoup(page)  # make soup
                     body = soup.find("body")  # get body
                     # print(soup)
@@ -81,16 +115,59 @@ with open('avg.csv', 'w') as f:  # open file so we can write to it
                     height = row.find('td', {'data-stat', 'height'}).text
                     experience = row.find('td', {'data-stat', 'experience'}).text
                     roster.append(age)  # add player coloumn text (name)
+=======
+                    soup = BeautifulSoup(page)#make soup
+                    body = soup.find("body")#get body
+                    #print(soup)
+                    #exit()
+                    comments = soup.find_all(text=lambda text:isinstance(text, Comment))#get all comments
+                    for comment in comments:#for each html comment
+                        commentsoup = BeautifulSoup(comment)#make soup
+                        tabletag = commentsoup.find('table')#search for table element
+                        if tabletag is not None:#if table object is found
+                            body.insert_after(tabletag)#uncomment table
+                        
+                    table = soup.find('table', id='games_played_team')#find roster table
+                    #print(table)
+                    #exit()
+                    table_foot = table.find('tfoot')#go inside
+                    #print(table_body)
+                    #exit()
+                    rows = table_foot.find('tr')#get row
+                    #print(rows)
+                    #exit()
+                    temp = rows.find_all('td');
+                    #print(temp)
+                    #exit()
+                    age = temp[1].text
+                    #print(age)
+                    #exit()
+                    g = temp[3].text
+                    weight = temp[5].text
+                    height = temp[6].text
+                    experience = temp[9].text
+                    roster.append(age)#add player coloumn text (name)
+>>>>>>> 297d0cc0e86a584f67718f0d369dd4fc84f9009d
                     roster.append(g)
                     roster.append(weight)
                     roster.append(height)
                     roster.append(experience)
+<<<<<<< HEAD
                     successful = True  # we succeed no server error so don't retry
                 except Exception as e:  # server error occurs
                     # print(e)
                     print(str(year) + ':' + team)  # fancy 404 error
                     # print(url)
                     roster.append('ERROR')  # say so in file for further investigation
+=======
+                    print(str(year) + ':' + team +'[successful]')
+                    successful = True #we succeed no server error so don't retry
+                except Exception as e:#server error occurs
+                    #print(e)
+                    print(str(year) + ':' +team +'[ERROR]')#fancy 404 error
+                    #print(url)
+                    roster.append('ERROR')#say so in file for further investigation
+>>>>>>> 297d0cc0e86a584f67718f0d369dd4fc84f9009d
                 finally:
                     f.write('' + str(year) + ':' + team + ',' + ','.join(roster) + '\r\n')  # write roster to file
                 if itr == 4:  # if we try four times then stop retying
