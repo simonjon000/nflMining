@@ -5,12 +5,12 @@ import re
 import csv
 import time
 
-YEARS_START=2016
-YEARS_END=2017
+YEARS_START=2015
+YEARS_END=2015
 
 yearteam = {}
 tempteam = []
-with open('C:/Users/Jonah/Desktop/jONAH/CS/spring2018/nfl_elo.csv', 'r') as nflstat:#open origional data file to get all team abbreviations
+with open('nfl_elo.csv', 'r') as nflstat:#open origional data file to get all team abbreviations
     filereader = csv.reader(nflstat)#treat it as csv
     s="1920"#start year
     t=1#used to skip first line
@@ -31,7 +31,7 @@ with open('C:/Users/Jonah/Desktop/jONAH/CS/spring2018/nfl_elo.csv', 'r') as nfls
 #TEAMS = ['crd', 'atl', 'rav', 'buf', 'car', 'chi', 'cin', 'cle', 'dal', 'den', 'det', 'gnb', 'htx', 'clt', 'jax', 'kan', 'mia', 'min', 'nwe', 'nor', 'nyg', 'nyj', 'rai', 'phi', 'pit', 'sdg', 'sfo', 'sea', 'ram', 'tam', 'oti', 'was']
 #print(len(TEAMS))
 TEAMS=[]
-with open('C:/Users/Jonah/Desktop/jONAH/CS/spring2018/avg.csz', 'w') as f:#open file so we can write to it
+with open('avg.csv', 'w') as f:#open file so we can write to it
     for year in range(YEARS_START, YEARS_END+1):#for each year
         TEAMS = yearteam[str(year)]#set teams from our dictionary above
         #print(year)
@@ -51,7 +51,7 @@ with open('C:/Users/Jonah/Desktop/jONAH/CS/spring2018/avg.csz', 'w') as f:#open 
                     page = urlopen(url)#open url
                 except:#page does not exist
                     roster.append('ERROR')
-                    f.write('' + str(year) + ':'+ team + ',' + ','.join(roster) + '\r\n')
+                    f.write('' + str(year) + ','+ team + ',' + ','.join(roster) + '\r\n')
                     continue;
                 try:
                     soup = BeautifulSoup(page)#make soup
@@ -97,6 +97,6 @@ with open('C:/Users/Jonah/Desktop/jONAH/CS/spring2018/avg.csz', 'w') as f:#open 
                     #print(url)
                     roster.append('ERROR')#say so in file for further investigation
                 finally:
-                    f.write('' + str(year) + ':'+ team + ',' + ','.join(roster) + '\r\n')#write roster to file
+                    f.write('' + str(year) + ','+ team + ',' + ','.join(roster) + '\r\n')#write roster to file
                 if itr == 4:#if we try four times then stop retying
                     successful = True;

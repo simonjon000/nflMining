@@ -1,20 +1,22 @@
 import csv
-yteam = {}
-team = []
-with open('nfl_elo.csv', 'r') as nflstat:
-    filereader = csv.reader(nflstat)
-    s=""
-    t=1
-    for row in filereader:
-        if t==1:
-            t=0
-            continue
-        if s != row[1]:
-            yteam[s] = set(team)
-            s=row[1]
-            tempteam = []
-            #print(yteam)
-        team.append(row[4].lower())
-        team.append(row[5].lower())
-for key in yteam:
-    print(">"+key+"<")
+match = []
+
+def TeamDict():
+    global match
+    firstline = True
+    with open('nfl_elo.csv', 'r') as nflstat:
+        filereader = csv.reader(nflstat)
+        for row in filereader:
+            if firstline:
+                    firstline = False
+                    continue
+            # match = [Year, T1 name, T1 elo, T1 score, T2 name, T2 elo, T2 score]
+            match += [[int(row[1]), row[4].lower(), int(row[6][:4]), int(row[12]), row[5].lower(), int(row[7][:4]), int(row[13])]]
+        nflstat.close()
+
+def main():
+    TeamDict()
+    for v in match[0]:
+        print(v)
+
+main()
