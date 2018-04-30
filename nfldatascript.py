@@ -21,6 +21,7 @@ with open('nfl_elo.csv', 'r') as nflstat:#open origional data file to get all te
         if s != row[1]:#else if we encounter a new year
             yearteam[s] = set(tempteam) #save the old team list (as set to remove duplicates)
             s=row[1] #
+            tempteam = []
         tempteam.append(row[4].lower())#add first team
         tempteam.append(row[5].lower())#add second team
 #print(yearteam['1920'])
