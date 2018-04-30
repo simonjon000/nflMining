@@ -5,14 +5,12 @@ import re
 import csv
 import time
 
-# This is unused. It was previously used to get all the data for every member in each team
-
-YEARS_START=2015
-YEARS_END=2015
+YEARS_START=1943
+YEARS_END=1944
 
 yearteam = {}
 tempteam = []
-with open('nfl_elo.csv', 'r') as nflstat:#open origional data file to get all team abbreviations
+with open('nfl_elo.csv', 'r') as nflstat:#open origional data file to get all team abbreviations C:/Users/Jonah/Desktop/jONAH/CS/spring2018/
     filereader = csv.reader(nflstat)#treat it as csv
     s="1920"#start year
     t=1#used to skip first line
@@ -33,7 +31,7 @@ with open('nfl_elo.csv', 'r') as nflstat:#open origional data file to get all te
 #TEAMS = ['crd', 'atl', 'rav', 'buf', 'car', 'chi', 'cin', 'cle', 'dal', 'den', 'det', 'gnb', 'htx', 'clt', 'jax', 'kan', 'mia', 'min', 'nwe', 'nor', 'nyg', 'nyj', 'rai', 'phi', 'pit', 'sdg', 'sfo', 'sea', 'ram', 'tam', 'oti', 'was']
 #print(len(TEAMS))
 TEAMS=[]
-with open('avg.csv', 'w') as f:#open file so we can write to it
+with open('avg.csz', 'w', newline='') as f:#open file so we can write to it C:/Users/Jonah/Desktop/jONAH/CS/spring2018/
     for year in range(YEARS_START, YEARS_END+1):#for each year
         TEAMS = yearteam[str(year)]#set teams from our dictionary above
         #print(year)
@@ -91,11 +89,11 @@ with open('avg.csv', 'w') as f:#open file so we can write to it
                     roster.append(weight)
                     roster.append(height)
                     roster.append(experience)
-                    print(str(year) + ':' + team +'[successful]')
+                    print(str(year) + ',' + team +'[successful]')
                     successful = True #we succeed no server error so don't retry
                 except Exception as e:#server error occurs
                     #print(e)
-                    print(str(year) + ':' +team +'[ERROR]')#fancy 404 error
+                    print(str(year) + ',' +team +'[ERROR]')#fancy 404 error
                     #print(url)
                     roster.append('ERROR')#say so in file for further investigation
                 finally:
